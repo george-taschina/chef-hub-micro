@@ -15,8 +15,6 @@ spec:
   clusterResourceWhitelist:
     - group: ''
       kind: Namespace
-    - group: networking.k8s.io
-      kind: NetworkPolicy
   namespaceResourceWhitelist:
     - group: ''
       kind: '*'
@@ -26,7 +24,11 @@ spec:
       kind: '*'
     - group: policy
       kind: '*'
+    - group: networking.k8s.io
+      kind: '*'
     - group: networking.istio.io
       kind: '*'
     - group: security.istio.io
+      kind: '*'
+    - group: rabbitmq.com
       kind: '*'
