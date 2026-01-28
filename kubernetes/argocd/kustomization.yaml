@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+resources:
+  # ArgoCD will be installed via script from official manifests
+  # These are our custom resources
+  - namespace.yaml
+  - project.yaml
+  - applications/api-gateway.yaml
+  - applications/observability.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: chefhub-gitops

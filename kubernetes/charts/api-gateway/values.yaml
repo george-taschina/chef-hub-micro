@@ -1,0 +1,97 @@
+# API Gateway default values
+
+replicaCount: 2
+
+image:
+  repository: api-gateway
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1001
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 3000
+  grpcPort: null  # No gRPC for gateway
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: SERVICE_NAME
+    value: "api-gateway"
+  - name: PORT
+    value: "3000"
+
+configMap:
+  enabled: true
+  data:
+    IDENTITY_SERVICE_URL: "identity-service:3000"
+    CHEF_PROFILE_SERVICE_URL: "chef-profile-service:3000"
+    CATALOG_SERVICE_URL: "catalog-service:3000"
+    MEDIA_SERVICE_URL: "media-service:3000"
+    REVIEW_SERVICE_URL: "review-service:3000"
+    BADGE_SERVICE_URL: "badge-service:3000"
+    ANALYTICS_SERVICE_URL: "analytics-service:3000"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+volumes: []
+volumeMounts: []
+
+livenessProbe:
+  httpGet:
+    path: /health/live
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3

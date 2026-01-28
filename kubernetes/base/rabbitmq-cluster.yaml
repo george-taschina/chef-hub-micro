@@ -1,0 +1,21 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+  namespace: chefhub
+spec:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  rabbitmq:
+    additionalConfig: |
+      default_user = chefhub
+      default_pass = chefhub
+  persistence:
+    storageClassName: standard
+    storage: 1Gi

@@ -1,0 +1,6 @@
+dependencies:
+- name: chefhub-common
+  repository: file://../common
+  version: 1.0.0
+digest: sha256:cf1381188247d97d9fdabdacd1571b7f0a9710ee984384447f2ca371b45d68f8
+generated: "2026-01-28T09:19:53.792185+01:00"

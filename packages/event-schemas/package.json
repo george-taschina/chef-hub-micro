@@ -1,0 +1,17 @@
+{
+  "name": "@chefhub/event-schemas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Event schemas for RabbitMQ messaging",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

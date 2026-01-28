@@ -1,0 +1,19 @@
+# Enable mTLS STRICT mode for all services in chefhub namespace
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: chefhub
+spec:
+  mtls:
+    mode: STRICT
+---
+# Allow permissive mode for observability namespace (Prometheus scraping)
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: chefhub-observability
+spec:
+  mtls:
+    mode: PERMISSIVE

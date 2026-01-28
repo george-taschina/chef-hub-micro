@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-gateway
+  namespace: chefhub
+spec:
+  hosts:
+    - "api.chefhub.local"
+  gateways:
+    - chefhub-gateway
+  http:
+    # Route all API traffic through the gateway
+    - match:
+        - uri:
+            prefix: /api
+      route:
+        - destination:
+            host: api-gateway
+            port:
+              number: 3000
+      retries:
+        attempts: 3
+        perTryTimeout: 10s
+        retryOn: 5xx,reset,connect-failure,retriable-4xx
+      timeout: 30s
+    # Health check endpoint
+    - match:
+        - uri:
+            exact: /health
+      route:
+        - destination:
+            host: api-gateway
+            port:
+              number: 3000

@@ -1,0 +1,50 @@
+# Local/Minikube values
+
+replicaCount: 1
+
+image:
+  repository: api-gateway
+  tag: "latest"
+  pullPolicy: Never  # Use local image
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1001
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+
+podDisruptionBudget:
+  enabled: false
+
+env:
+  - name: NODE_ENV
+    value: "development"
+  - name: SERVICE_NAME
+    value: "api-gateway"
+  - name: PORT
+    value: "3000"
+  - name: RABBITMQ_URL
+    value: "amqp://chefhub:chefhub@rabbitmq.chefhub.svc:5672"

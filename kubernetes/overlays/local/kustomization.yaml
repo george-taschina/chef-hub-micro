@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Include base resources
+resources:
+  - ../../base
+
+# Local-specific patches
+patches:
+  # Reduce RabbitMQ resources for local development
+  - target:
+      kind: RabbitmqCluster
+      name: rabbitmq
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: replace
+        path: /spec/resources/requests/cpu
+        value: 50m
+      - op: replace
+        path: /spec/resources/requests/memory
+        value: 128Mi
+      - op: replace
+        path: /spec/resources/limits/cpu
+        value: 200m
+      - op: replace
+        path: /spec/resources/limits/memory
+        value: 256Mi
+
+labels:
+  environment: local
+
+commonAnnotations:
+  chefhub.io/environment: local

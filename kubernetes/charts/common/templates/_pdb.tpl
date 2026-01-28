@@ -1,0 +1,23 @@
+{{/*
+PodDisruptionBudget template
+*/}}
+{{- define "chefhub-common.pdb" -}}
+{{- if .Values.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "chefhub-common.fullname" . }}
+  labels:
+    {{- include "chefhub-common.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end }}
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "chefhub-common.selectorLabels" . | nindent 6 }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package chefhub.chefprofile.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service ChefProfileService {
+  // Get profile by ID
+  rpc GetProfile(GetProfileRequest) returns (ChefProfile);
+
+  // Get profile by slug (public)
+  rpc GetProfileBySlug(GetProfileBySlugRequest) returns (ChefProfile);
+
+  // Search chefs with filters
+  rpc SearchChefs(SearchChefsRequest) returns (SearchChefsResponse);
+
+  // Batch get profiles by user IDs
+  rpc GetProfilesByUserIds(GetProfilesByUserIdsRequest) returns (ProfilesResponse);
+
+  // Update badge status (called by badge-service)
+  rpc UpdateBadgeStatus(UpdateBadgeStatusRequest) returns (ChefProfile);
+}
+
+message ChefProfile {
+  string id = 1;
+  string user_id = 2;
+  string slug = 3;
+  optional string bio = 4;
+  optional string public_email = 5;
+  optional string public_phone = 6;
+  bool verified = 7;
+  bool michelin = 8;
+  bool private_chef = 9;
+  bool recommended = 10;
+  optional Address address = 11;
+  repeated Experience experiences = 12;
+  repeated Language languages = 13;
+  repeated string service_regions = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+
+message Address {
+  string id = 1;
+  string street = 2;
+  string city = 3;
+  string state = 4;
+  string country = 5;
+  string postal_code = 6;
+  double latitude = 7;
+  double longitude = 8;
+}
+
+message Experience {
+  string id = 1;
+  string company = 2;
+  string position = 3;
+  google.protobuf.Timestamp start_date = 4;
+  optional google.protobuf.Timestamp end_date = 5;
+  optional string description = 6;
+}
+
+message Language {
+  string id = 1;
+  string language_code = 2;
+  string level = 3;
+}
+
+message GetProfileRequest {
+  string profile_id = 1;
+}
+
+message GetProfileBySlugRequest {
+  string slug = 1;
+}
+
+message SearchChefsRequest {
+  optional BoundingBox bounding_box = 1;
+  optional GeoPoint center = 2;
+  optional int32 radius_km = 3;
+  repeated string tag_ids = 4;
+  optional int32 min_rating = 5;
+  bool verified_only = 6;
+  int32 page = 7;
+  int32 page_size = 8;
+}
+
+message BoundingBox {
+  double north = 1;
+  double south = 2;
+  double east = 3;
+  double west = 4;
+}
+
+message GeoPoint {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message SearchChefsResponse {
+  repeated ChefProfile profiles = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message GetProfilesByUserIdsRequest {
+  repeated string user_ids = 1;
+}
+
+message ProfilesResponse {
+  repeated ChefProfile profiles = 1;
+}
+
+message UpdateBadgeStatusRequest {
+  string profile_id = 1;
+  string badge_type = 2;
+  bool enabled = 3;
+}

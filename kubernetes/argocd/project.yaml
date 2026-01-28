@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: chefhub
+  namespace: argocd
+spec:
+  description: ChefHub Microservices Platform
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: chefhub
+      server: https://kubernetes.default.svc
+    - namespace: chefhub-observability
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+  namespaceResourceWhitelist:
+    - group: ''
+      kind: '*'
+    - group: apps
+      kind: '*'
+    - group: autoscaling
+      kind: '*'
+    - group: policy
+      kind: '*'
+    - group: networking.istio.io
+      kind: '*'
+    - group: security.istio.io
+      kind: '*'

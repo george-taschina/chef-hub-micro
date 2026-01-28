@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: chefhub-gateway
+  namespace: chefhub
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "api.chefhub.local"
+        - "*.chefhub.local"
+    # TLS config for production (uncomment when using cert-manager)
+    # - port:
+    #     number: 443
+    #     name: https
+    #     protocol: HTTPS
+    #   tls:
+    #     mode: SIMPLE
+    #     credentialName: chefhub-tls
+    #   hosts:
+    #     - "api.chefhub.it"
