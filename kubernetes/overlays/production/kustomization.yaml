@@ -31,7 +31,7 @@ patches:
         path: /spec/persistence/storage
         value: 10Gi
 
-labels:
+commonLabels:
   environment: production
 
 commonAnnotations:

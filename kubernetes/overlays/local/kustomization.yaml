@@ -28,7 +28,7 @@ patches:
         path: /spec/resources/limits/memory
         value: 256Mi
 
-labels:
+commonLabels:
   environment: local
 
 commonAnnotations:

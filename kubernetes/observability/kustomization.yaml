@@ -9,6 +9,6 @@ resources:
   - prometheus/alerts/service-alerts.yaml
   - grafana/grafana.yaml
 
-labels:
+commonLabels:
   app.kubernetes.io/part-of: chefhub-observability
   app.kubernetes.io/managed-by: kustomize
